@@ -1,149 +1,39 @@
-# 🌐 Distributed NetFlow Analyzer
+# 🌐 Network Traffic Analyzer
 
-> **Real-time network traffic analytics & DDoS detection using Go, Apache Spark, and Kafka**
+**A simple tool to monitor your network traffic and stop hackers in real time.**
 
-A distributed pipeline that ingests high-volume NetFlow-like records, performs near real-time analytics with Spark Structured Streaming, and detects DDoS attacks and network anomalies.
+## 🤔 What does this do?
+Think of this project as a **smart security camera for your internet connection**. It tracks all the data coming in and out of your system to make sure everything is safe and normal. 
 
----
+If it spots something suspicious—like a hacker trying to overload your network to take it down (a DDoS attack)—it immediately catches the problem and alerts you. 
 
-## ✨ Features
+### ✨ Key Features
+- 👀 **Live Monitoring:** Get a real-time, easy-to-understand visual representation of your internet traffic.
+- 🚨 **Automatic Threat Detection:** It constantly watches for unusual patterns that point to a cyberattack.
+- ⚡ **Super Fast & Scaleable:** It's built to handle incredible amounts of data without skipping a beat, no matter how large your network is.
 
-- **High-Throughput Ingestion** — Go producers with goroutine concurrency and backpressure handling
-- **Real-Time Streaming** — Spark Structured Streaming with event-time windows and watermarks
-- **DDoS Detection** — Fan-in attacks (many→one), port scans (one→many), SYN floods
-- **Scalable Storage** — Bronze/Silver/Gold data lake architecture with Parquet
-- **Fault Tolerant** — Checkpointing, recovery from failures, exactly-once semantics
-- **Observable** — Live dashboard with Streamlit, optional Prometheus/Grafana metrics
+## 📸 Dashboard Preview
+Here is what you see when the project is running:
 
----
+![Network Traffic Dashboard](assets/dashboard.png)
 
-## 🏗️ Architecture
+## 🚀 How to run it
+It's very easy to start the project. Just follow these steps:
 
-```
-┌─────────────────────┐      ┌─────────────────────┐
-│   Go Flow Producers │─────▶│  Kafka / Redpanda   │
-│   (Router Replicas) │      │   netflow.raw       │
-└─────────────────────┘      └──────────┬──────────┘
-                                        │
-                                        ▼
-                       ┌────────────────────────────┐
-                       │   Spark Structured Stream  │
-                       │   ─────────────────────    │
-                       │   • Parse & Enrich         │
-                       │   • Window Aggregations    │
-                       │   • DDoS/Scan Detection    │
-                       └─────────────┬──────────────┘
-                                     │
-              ┌──────────────────────┼──────────────────────┐
-              ▼                      ▼                      ▼
-        ┌──────────┐          ┌──────────┐          ┌──────────┐
-        │  Bronze  │          │  Silver  │          │   Gold   │
-        │  (Raw)   │          │(Enriched)│          │(Metrics) │
-        └──────────┘          └──────────┘          └──────────┘
-                                                          │
-                                                          ▼
-                                              ┌────────────────────┐
-                                              │ Streamlit Dashboard│
-                                              └────────────────────┘
-```
-
----
-
-## 🛠️ Tech Stack
-
-| Component | Technology |
-|-----------|------------|
-| **Producers** | Go 1.21+ (goroutines, channels, kafka-go) |
-| **Streaming** | Apache Spark 3.x + PySpark |
-| **Broker** | Kafka / Redpanda |
-| **Storage** | Parquet (Bronze → Silver → Gold) |
-| **Orchestration** | Docker + Docker Compose |
-| **Dashboard** | Streamlit |
-| **Monitoring** | Prometheus + Grafana (optional) |
-
----
-
-## 🚀 Quick Start
-
+**1. Download the code:**
 ```bash
-# 1. Clone the repository
 git clone https://github.com/yourusername/netflow-ddos-spark.git
 cd netflow-ddos-spark
+```
 
-# 2. Start the infrastructure
+**2. Start the system:**
+```bash
 docker-compose up -d
-
-# 3. View the dashboard
-open http://localhost:8501
 ```
 
----
-
-## 📁 Project Structure
-
-```
-netflow-ddos-spark/
-├── README.md
-├── docker/
-│   ├── docker-compose.yml
-│   ├── spark/
-│   └── producer/
-├── docs/
-│   ├── PLAN.md              # Detailed execution plan
-│   ├── design.md            # System design doc
-│   └── experiments.md       # Performance benchmarks
-├── producer-go/
-│   ├── cmd/producer/
-│   └── internal/
-│       ├── config/
-│       ├── netflow/
-│       ├── kafka/
-│       └── metrics/
-├── spark-pyspark/
-│   ├── src/
-│   │   ├── streaming_job.py
-│   │   ├── aggregates.py
-│   │   └── detection.py
-│   └── tests/
-├── dashboard/
-│   └── app.py
-└── data/
-    ├── bronze/
-    ├── silver/
-    └── gold/
-```
+**3. Open the dashboard:**
+Go to `http://localhost:8501` in your web browser to view your live network traffic!
 
 ---
 
-## 📊 Detection Capabilities
-
-| Alert Type | Description | Key Metrics |
-|------------|-------------|-------------|
-| **FAN_IN_DDOS** | Many sources → one destination | Unique sources, packets/sec, bytes/sec |
-| **FAN_OUT_SCAN** | One source → many destinations | Unique destinations, port diversity |
-| **SYN_BURST** | TCP SYN flood detection | SYN-only ratio per window |
-
----
-
-## 📖 Documentation
-
-- **[Execution Plan](docs/PLAN.md)** — Phase-by-phase implementation guide
-- **[System Design](docs/design.md)** — Architecture decisions and trade-offs
-- **[Experiments](docs/experiments.md)** — Performance benchmarks and scaling analysis
-
----
-
-## 📝 Resume Bullets
-
-> Use these to describe the project on your resume:
-
-- Built a distributed NetFlow-style analytics pipeline using **Go producers** and **Apache Spark Structured Streaming** to process high-volume network telemetry in near real time
-- Implemented event-time windowed aggregations and **DDoS/scan detection** with fault-tolerant checkpointing and partitioned Parquet sinks
-- Mitigated hot-key data skew during fan-in attacks using **two-stage aggregation (key salting)**, improving pipeline stability under adversarial traffic patterns
-- Benchmarked scaling across cluster sizes and event rates; analyzed shuffle bottlenecks and end-to-end alert latency using Spark streaming metrics
-
----
-
-## 📄 License
-
-MIT License — see [LICENSE](LICENSE) for details.
+*For developers: Under the hood, this project uses Go, Apache Spark, and Kafka to process massive volumes of network data with zero downtime.*
