@@ -12,10 +12,20 @@ If it spots something suspicious—like a hacker trying to overload your network
 - 🚨 **Automatic Threat Detection:** It constantly watches for unusual patterns that point to a cyberattack.
 - ⚡ **Super Fast & Scaleable:** It's built to handle incredible amounts of data without skipping a beat, no matter how large your network is.
 
-## 📸 Dashboard Preview
-Here is what you see when the project is running:
+## 📸 Main Features & Dashboard Preview
+Here are a couple of screenshots showing what the project looks like when it is running:
 
-![Network Traffic Dashboard](assets/dashboard.png)
+**Live Traffic Dashboard**  
+Monitor top active subnets, destinations, and connections in a clean, real-time overview.
+![Live Traffic Dashboard](assets/dashboard_main.png)
+
+**Security Alerts**  
+Instantly see high-priority security alerts when cyberattacks (like DDoS or Port Scans) are detected.
+![Security Alerts](assets/dashboard_alerts.png)
+
+**Enriched Raw Traffic**  
+If you want to dig deeper, view all incoming and outgoing connections directly through the data feed.
+![Enriched Traffic](assets/dashboard_traffic.png)
 
 ## 🚀 How to run it
 It's very easy to start the project. Just follow these steps:
